@@ -35,13 +35,20 @@ public class AssignedTaskConntroller {
     public AssignedTask updateAssignedTask(@PathVariable Long id, @RequestBody AssignedTask newTask) {
         return assignedTaskRepository.findById(id)
                 .map(existingTask -> {
-                    existingTask.setTask(newTask.getTask());
-                    existingTask.setAssignedTo(newTask.getAssignedTo());
-                    existingTask.setId(newTask.getId());
-                    existingTask.setCompleted(newTask.isCompleted());
-                    existingTask.setDateTime(newTask.getDateTime());
+                    if (newTask.getTask() != null) {
+                        existingTask.setTask(newTask.getTask());
+                    }
+                    if (newTask.getAssignedTo() != null) {
+                        existingTask.setAssignedTo(newTask.getAssignedTo());
+                    }
+                    if (newTask.isCompleted() != existingTask.isCompleted()) {
+                        existingTask.setCompleted(newTask.isCompleted());
+                    }
+                    if (newTask.getDateTime() != null) {
+                        existingTask.setDateTime(newTask.getDateTime());
+                    }
                     return assignedTaskRepository.save(existingTask);
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found with id: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assigned task not found with id: " + id));
     }
 }
