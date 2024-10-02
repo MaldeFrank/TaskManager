@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 @Getter
 @Setter
@@ -14,7 +15,9 @@ public class AssignedTask {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String assignedTo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Profile assignedTo;
     private boolean completed;
     @CreationTimestamp
     private LocalDateTime dateTime;
