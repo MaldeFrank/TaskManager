@@ -1,5 +1,6 @@
 package com.example.cleanappbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +17,8 @@ public class AssignedTask {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "profile_id")
+    @JsonIgnore
     private Profile assignedTo;
     private boolean completed;
     @CreationTimestamp
