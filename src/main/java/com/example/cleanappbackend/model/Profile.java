@@ -1,5 +1,6 @@
 package com.example.cleanappbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,6 @@ public class Profile {
     private String name;
     private long points;
     @OneToMany(mappedBy = "assignedTo")
+    @JsonIgnore
     private List<AssignedTask> assignedTasks;
 }

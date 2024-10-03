@@ -18,7 +18,6 @@ public class AssignedTask {
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
-    @JsonIgnore
     private Profile assignedTo;
     private boolean completed;
     @CreationTimestamp
