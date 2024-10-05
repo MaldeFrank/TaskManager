@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AssignedTaskConntroller {
@@ -19,6 +22,22 @@ public class AssignedTaskConntroller {
     @GetMapping("/assignedTask")
     List<AssignedTask> getAssignedTasks(){
        return assignedTaskRepository.findAll();
+    }
+
+    @GetMapping("/assignedTask/weekly")
+    public List<AssignedTask> getAssignedTasksWeekly() {
+        List<AssignedTask> assignedTasks = assignedTaskRepository.findAll();
+
+        LocalDate today = LocalDate.now();
+        LocalDate nextWeek = today.plusDays(7);
+        LocalDate lastWeek = today.minusDays(7);
+
+        return assignedTasks.stream()
+                .filter(task -> {
+                    LocalDate taskDate = task.getDateTime();
+                    return taskDate.isBefore(nextWeek) && taskDate.isAfter(lastWeek);
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/assignedTask/{id}")
