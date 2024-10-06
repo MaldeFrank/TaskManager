@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +31,13 @@ public class AssignedTaskConntroller {
         List<AssignedTask> assignedTasks = assignedTaskRepository.findAll();
 
         LocalDate today = LocalDate.now();
-        LocalDate nextWeek = today.plusDays(7);
-        LocalDate lastWeek = today.minusDays(7);
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate sunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
         return assignedTasks.stream()
                 .filter(task -> {
                     LocalDate taskDate = task.getDateTime();
-                    return taskDate.isBefore(nextWeek) && taskDate.isAfter(lastWeek);
+                    return !taskDate.isBefore(monday) && !taskDate.isAfter(sunday);
                 })
                 .collect(Collectors.toList());
     }
