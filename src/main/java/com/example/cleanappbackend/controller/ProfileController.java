@@ -20,7 +20,7 @@ public class ProfileController {
         return repository.findAll();
     }
 
-    @PostMapping("profile")
+    @PostMapping("/profile")
     Profile createProfile(@RequestBody Profile profile){
         return repository.save(profile);
     }
