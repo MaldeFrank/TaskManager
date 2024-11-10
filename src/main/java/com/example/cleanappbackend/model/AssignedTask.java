@@ -1,6 +1,5 @@
 package com.example.cleanappbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +24,7 @@ public class AssignedTask {
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
+    private String userId;
 
     @PostConstruct
     public void init() {

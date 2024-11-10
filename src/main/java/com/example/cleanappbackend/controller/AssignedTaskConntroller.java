@@ -26,8 +26,8 @@ public class AssignedTaskConntroller {
        return assignedTaskRepository.findAll();
     }
 
-    @GetMapping("/assignedTask/weekly")
-    public List<AssignedTask> getAssignedTasksWeekly() {
+    @GetMapping("/assignedTask/weekly/{userId}")
+    public List<AssignedTask> getAssignedTasksWeekly(@PathVariable String userId) {
         List<AssignedTask> assignedTasks = assignedTaskRepository.findAll();
 
         LocalDate today = LocalDate.now();
@@ -37,7 +37,7 @@ public class AssignedTaskConntroller {
         return assignedTasks.stream()
                 .filter(task -> {
                     LocalDate taskDate = task.getDateTime();
-                    return !taskDate.isBefore(monday) && !taskDate.isAfter(sunday);
+                    return !taskDate.isBefore(monday) && !taskDate.isAfter(sunday) && task.getUserId().equals(userId);
                 })
                 .collect(Collectors.toList());
     }
