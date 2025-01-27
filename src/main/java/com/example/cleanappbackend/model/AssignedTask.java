@@ -1,5 +1,6 @@
 package com.example.cleanappbackend.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class AssignedTask {
     @JoinColumn(name = "task_id")
     private Task task;
     private String userId;
+    @ManyToOne
+    @Nullable
+    private Tasklist tasklist;
 
     @PostConstruct
     public void init() {
