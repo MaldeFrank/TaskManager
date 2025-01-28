@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -16,22 +17,29 @@ public class AssignedTask {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
-    private Profile assignedTo;
+    private Profile assignedTo; // Assuming Profile class exists elsewhere
+
     private boolean completed;
+
     @CreationTimestamp
     private LocalDate dateTime;
+
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
+
     private String userId;
-    @ManyToOne
-    @Nullable
+
+    @ManyToOne()
+    @JoinColumn(name = "task_list_id")
     private Tasklist tasklist;
 
     @PostConstruct
     public void init() {
         completed = false;
     }
+
 }
