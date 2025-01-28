@@ -15,9 +15,17 @@ public class TasklistController {
     @Autowired
     private TasklistRepository tasklistRepository;
 
+    @GetMapping("/getAll")
+    public List<Tasklist> getAll(){
+        return tasklistRepository.findAll();
+    }
+
     @GetMapping("/assignedTasks/{id}")
     public List<AssignedTask> getAssignedTasksByTasklistId(@PathVariable Long id){
         Tasklist tasklist = tasklistRepository.getReferenceById(id);
+        if(tasklist.getAssignedTaskList().isEmpty()){
+            return null;
+        }
         return tasklist.getAssignedTaskList();
     }
 
