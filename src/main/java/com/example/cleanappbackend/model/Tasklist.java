@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class Tasklist {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long taskId;
 
     @Column(name = "list-name")  // Changed to match database column name with hyphen
