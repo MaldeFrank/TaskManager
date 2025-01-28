@@ -16,7 +16,7 @@ public class Tasklist {
 
     private String listName;
 
-    @OneToMany(mappedBy = "tasklist")
+    @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<AssignedTask> assignedTaskList;
 }
