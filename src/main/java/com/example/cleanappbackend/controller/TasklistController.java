@@ -1,11 +1,12 @@
 package com.example.cleanappbackend.controller;
 
-import com.example.cleanappbackend.model.AssignedTask;
+import com.example.cleanappbackend.model.DTO.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.repository.TasklistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,16 +18,24 @@ public class TasklistController {
 
     @GetMapping("/getAll")
     public List<Tasklist> getAll(){
-        return tasklistRepository.findAll();
+        List<Tasklist> tasklists = tasklistRepository.findAll();
+        for (Tasklist tasklist : tasklists) {
+            tasklist.setAssignedTaskList(null);
+        }
+        return tasklists;
     }
 
     @GetMapping("/assignedTasks/{id}")
-    public List<AssignedTask> getAssignedTasksByTasklistId(@PathVariable Long id){
+    public List<AssignedTaskDto> getAssignedTasksByTasklistId(@PathVariable Long id){
         Tasklist tasklist = tasklistRepository.getReferenceById(id);
-        if(tasklist.getAssignedTaskList().isEmpty()){
-            return null;
-        }
-        return tasklist.getAssignedTaskList();
+        List<AssignedTaskDto> assignedTaskDtos = new ArrayList<>();
+
+        tasklist.getAssignedTaskList().stream().forEach(task->{
+            AssignedTaskDto assignedTaskDto = new AssignedTaskDto(task);
+            assignedTaskDtos.add(assignedTaskDto);
+        });
+
+        return assignedTaskDtos;
     }
 
     @GetMapping("/getTasklist/{id}")
