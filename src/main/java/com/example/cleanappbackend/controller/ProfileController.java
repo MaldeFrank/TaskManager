@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class ProfileController {
     @Autowired
-    ProfileRepository repository;
+    private ProfileRepository repository;
 
     @GetMapping("/profiles")
     List<Profile> getTasks(){

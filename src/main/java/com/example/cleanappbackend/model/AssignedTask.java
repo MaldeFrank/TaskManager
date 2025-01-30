@@ -37,6 +37,9 @@ public class AssignedTask {
     @JoinColumn(name = "task_list_id")
     private Tasklist tasklist;
 
+    @ManyToOne()
+    private GoogleAccount googleAccount;
+
     @PostConstruct
     public void init() {
         completed = false;

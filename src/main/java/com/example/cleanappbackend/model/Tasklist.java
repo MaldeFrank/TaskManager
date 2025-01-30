@@ -16,6 +16,9 @@ public class Tasklist {
 
     private String listName;
 
+    @ManyToOne()
+    private GoogleAccount googleAccount;
+
     @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<AssignedTask> assignedTaskList;
