@@ -2,8 +2,7 @@ package com.example.cleanappbackend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "task")
 @Builder
@@ -15,6 +14,8 @@ public class Task {
     private String title;
     private String description;
     private Long points;
+    @ManyToOne
+    private GoogleAccount googleAccount;
 
     public Task() {
 

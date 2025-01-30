@@ -3,12 +3,14 @@ package com.example.cleanappbackend.controller;
 import com.example.cleanappbackend.model.Task;
 import com.example.cleanappbackend.repository.TaskRepository;
 import dto.TaskDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 public class TaskController {
 
@@ -29,14 +31,9 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    Task createTask(@RequestBody TaskDto task){
-        Task newTask = Task.builder()
-                .id(null)
-                .title(task.getTitle())
-                .description(task.getDescription())
-                .points(task.getPoints())
-                .build();
-        return taskRepository.save(newTask);
+    Task createTask(@RequestBody Task task){
+        System.out.println("Google id: " + task.getGoogleAccount().getId());
+        return taskRepository.save(task);
     }
 
     @PutMapping("/tasks/{id}")

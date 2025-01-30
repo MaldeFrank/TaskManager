@@ -23,4 +23,8 @@ public class GoogleAccount {
     @OneToMany(mappedBy = "googleAccount")
     @Column(nullable = true)
     private List<AssignedTask> assignedTasks;
+
+    @OneToMany(mappedBy = "googleAccount")
+    @Column(nullable = true)
+    private List<Task> task;
 }
