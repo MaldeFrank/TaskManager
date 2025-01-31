@@ -62,6 +62,9 @@ public class TasklistController {
             return false;
         }
         tasklist.getGoogleAccount().add(googleAccount);
+        tasklist.getAssignedTaskList().forEach(task -> {
+            task.getGoogleAccount().add(googleAccount);
+        });
         tasklistRepository.save(tasklist);
         return true;
     }

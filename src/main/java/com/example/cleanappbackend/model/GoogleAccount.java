@@ -20,7 +20,7 @@ public class GoogleAccount {
     private List<Tasklist> tasklists;
 
 
-    @OneToMany(mappedBy = "googleAccount")
+    @ManyToMany(mappedBy = "googleAccount")
     @Column(nullable = true)
     private List<AssignedTask> assignedTasks;
 

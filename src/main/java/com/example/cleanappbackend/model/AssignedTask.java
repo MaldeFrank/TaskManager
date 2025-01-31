@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,8 +36,8 @@ public class AssignedTask {
     @JoinColumn(name = "task_list_id")
     private Tasklist tasklist;
 
-    @ManyToOne()
-    private GoogleAccount googleAccount;
+    @ManyToMany()
+    private List<GoogleAccount> googleAccount;
 
     @PostConstruct
     public void init() {
