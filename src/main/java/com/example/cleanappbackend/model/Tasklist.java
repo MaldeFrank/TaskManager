@@ -20,6 +20,5 @@ public class Tasklist {
     private GoogleAccount googleAccount;
 
     @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<AssignedTask> assignedTaskList;
 }

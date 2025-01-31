@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class AssignedTaskConntroller {
+public class AssignedTaskController {
     private final AssignedTaskRepository assignedTaskRepository;
 
-    public AssignedTaskConntroller(AssignedTaskRepository assignedTaskRepository) {
+    public AssignedTaskController(AssignedTaskRepository assignedTaskRepository) {
         this.assignedTaskRepository = assignedTaskRepository;
     }
 

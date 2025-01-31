@@ -1,6 +1,6 @@
 package com.example.cleanappbackend.controller;
 
-import com.example.cleanappbackend.model.DTO.AssignedTaskDto;
+import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.repository.TasklistRepository;
 import org.springframework.beans.factory.annotation.Autowired;

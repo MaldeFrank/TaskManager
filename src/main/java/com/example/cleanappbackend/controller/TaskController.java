@@ -2,7 +2,6 @@ package com.example.cleanappbackend.controller;
 
 import com.example.cleanappbackend.model.Task;
 import com.example.cleanappbackend.repository.TaskRepository;
-import dto.TaskDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

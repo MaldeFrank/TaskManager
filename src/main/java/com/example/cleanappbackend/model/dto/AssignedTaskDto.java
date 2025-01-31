@@ -1,4 +1,4 @@
-package com.example.cleanappbackend.model.DTO;
+package com.example.cleanappbackend.model.dto;
 
 import com.example.cleanappbackend.model.AssignedTask;
 import lombok.Data;
@@ -22,6 +22,7 @@ public class AssignedTaskDto {
         this.setDateTime(assignedTask.getDateTime());
         this.setUserId(assignedTask.getUserId());
         this.setTasklistId(assignedTask.getTasklist().getTaskId());
+        this.setTask(new TaskDto(assignedTask.getTask()));
     }
 }
 

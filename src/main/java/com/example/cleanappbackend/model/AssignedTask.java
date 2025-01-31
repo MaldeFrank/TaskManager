@@ -1,16 +1,14 @@
 package com.example.cleanappbackend.model;
 
-import jakarta.annotation.Nullable;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "assignedTask")
 public class AssignedTask {

@@ -1,4 +1,4 @@
-package com.example.cleanappbackend.model.DTO;
+package com.example.cleanappbackend.model.dto;
 
 import com.example.cleanappbackend.model.Profile;
 import lombok.Data;
