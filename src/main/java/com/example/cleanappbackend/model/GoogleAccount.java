@@ -1,9 +1,6 @@
 package com.example.cleanappbackend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -18,7 +15,7 @@ public class GoogleAccount {
 
     private String email;
 
-    @OneToMany(mappedBy = "googleAccount")
+    @ManyToMany(mappedBy = "googleAccount")
     @Column(nullable = true)
     private List<Tasklist> tasklists;
 

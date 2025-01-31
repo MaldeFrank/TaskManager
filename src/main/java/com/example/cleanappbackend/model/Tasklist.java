@@ -16,8 +16,8 @@ public class Tasklist {
 
     private String listName;
 
-    @ManyToOne()
-    private GoogleAccount googleAccount;
+    @ManyToMany()
+    private List<GoogleAccount> googleAccount;
 
     @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL)
     private List<AssignedTask> assignedTaskList;
