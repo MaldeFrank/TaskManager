@@ -1,6 +1,5 @@
 package com.example.cleanappbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,6 +16,7 @@ public class GoogleAccount {
 
     private String name;
 
+    private String email;
 
     @OneToMany(mappedBy = "googleAccount")
     @Column(nullable = true)
