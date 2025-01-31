@@ -23,7 +23,7 @@ public class AssignedTaskDto {
         this.setUserId(assignedTask.getUserId());
         this.setTasklistId(assignedTask.getTasklist().getTaskId());
         this.setTask(new TaskDto(assignedTask.getTask()));
-        this.setAssignedTo(null);
+        this.setAssignedTo(assignedTask.getAssignedTo() == null ? null : new ProfileDto(assignedTask.getAssignedTo()));
     }
 }
 

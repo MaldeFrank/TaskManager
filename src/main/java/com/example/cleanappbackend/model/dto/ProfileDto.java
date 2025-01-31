@@ -10,9 +10,6 @@ public class ProfileDto {
     private long points;
     private int assignedTaskCount;
 
-    public ProfileDto() {
-
-    }
 
     public ProfileDto(Profile profile) {
         this.setId(profile.getId());
