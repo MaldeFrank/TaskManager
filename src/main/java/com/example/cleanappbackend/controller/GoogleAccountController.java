@@ -2,7 +2,9 @@ package com.example.cleanappbackend.controller;
 
 import com.example.cleanappbackend.model.AssignedTask;
 import com.example.cleanappbackend.model.GoogleAccount;
+import com.example.cleanappbackend.model.Task;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
+import com.example.cleanappbackend.model.dto.TaskDto;
 import com.example.cleanappbackend.model.dto.TasklistDto;
 import com.example.cleanappbackend.repository.GoogleAccountRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +70,17 @@ public class GoogleAccountController {
                 .collect(Collectors.toList());
 
         return tasklistDtos;
+    }
+
+    @GetMapping("/getTasks/{userId}")
+    List<TaskDto> getTasks(@PathVariable String userId) {
+        GoogleAccount googleAccount = googleAccountRepository.findById(userId).orElseThrow();
+
+        List<TaskDto> taskDtos = googleAccount.getTask().stream()
+                .map(task -> new TaskDto(task))
+                .collect(Collectors.toList());
+
+        return taskDtos;
     }
 
 }
