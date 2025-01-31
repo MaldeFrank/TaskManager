@@ -14,21 +14,13 @@ public class ProfileDto {
 
     }
 
-    public ProfileDto(long id, String name, long points) {
-        this.id = id;
-        this.name = name;
-        this.points = points;
+    public ProfileDto(Profile profile) {
+        this.setId(profile.getId());
+        this.setName(profile.getName());
+        this.setPoints(profile.getPoints());
+        this.setAssignedTaskCount(profile.getAssignedTasks().size());
     }
 
-    private ProfileDto convertToProfileDto(Profile profile) {
-        ProfileDto dto = new ProfileDto();
-        dto.setId(profile.getId());
-        dto.setName(profile.getName());
-        dto.setPoints(profile.getPoints());
-        dto.setAssignedTaskCount(profile.getAssignedTasks().size());
-
-        return dto;
-    }
 }
 
 
