@@ -1,5 +1,6 @@
 package com.example.cleanappbackend.controller;
 
+import com.example.cleanappbackend.model.GoogleAccount;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.repository.TasklistRepository;
@@ -51,5 +52,17 @@ public class TasklistController {
     @PostMapping("/createTasklist")
     public Tasklist createTasklist(@RequestBody Tasklist tasklist){
         return tasklistRepository.save(tasklist);
+    }
+
+    @PutMapping("/addUser/{email}/{tasklistId}")
+    public Boolean getTasklistByUserId(@PathVariable String email, @PathVariable Long tasklistId){
+        Tasklist tasklist = tasklistRepository.getReferenceById(tasklistId);
+        GoogleAccount googleAccount = tasklistRepository.findGoogleAccByEmail(email);
+        if (googleAccount == null) {
+            return false;
+        }
+        tasklist.getGoogleAccount().add(googleAccount);
+        tasklistRepository.save(tasklist);
+        return true;
     }
 }
