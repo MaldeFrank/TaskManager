@@ -19,7 +19,7 @@ public class AssignedTask {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
-    private Profile assignedTo; // Assuming Profile class exists elsewhere
+    private Profile assignedTo;
 
     private boolean completed;
 

@@ -15,6 +15,10 @@ public class GoogleAccount {
 
     private String email;
 
+    @ManyToMany(mappedBy = "googleAccounts")
+    @Column(nullable = true)
+    private List<Profile> profiles;
+
     @ManyToMany(mappedBy = "googleAccount")
     @Column(nullable = true)
     private List<Tasklist> tasklists;

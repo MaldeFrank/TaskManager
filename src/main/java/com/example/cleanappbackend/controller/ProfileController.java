@@ -1,6 +1,8 @@
 package com.example.cleanappbackend.controller;
 
+import com.example.cleanappbackend.model.GoogleAccount;
 import com.example.cleanappbackend.model.Profile;
+import com.example.cleanappbackend.model.dto.ProfileDto;
 import com.example.cleanappbackend.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +15,8 @@ public class ProfileController {
     private ProfileRepository repository;
 
     @GetMapping("/profiles")
-    List<Profile> getTasks(){
-        return repository.findAll();
+    List<ProfileDto> getTasks(){
+        return repository.findAll().stream().map(profile -> new ProfileDto(profile)).toList();
     }
 
     @PostMapping("/profile")
@@ -29,5 +31,20 @@ public class ProfileController {
             assignedTask.setAssignedTo(null);
         } );
         repository.deleteById(id);
+    }
+
+    @PutMapping("/profile/addGoogleAcc/{id}/{googleAccountId}")
+    Boolean addGoogleAccount(@PathVariable Long id, @PathVariable String googleAccountId){
+        Profile profile = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+
+        GoogleAccount googleAccount = repository.findGoogleAccById(googleAccountId);
+        if(googleAccount == null){
+            return false;
+        }
+
+        profile.getGoogleAccounts().add(googleAccount);
+        repository.save(profile);
+        return true;
     }
 }
