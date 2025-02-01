@@ -55,16 +55,28 @@ public class TasklistController {
     }
 
     @PutMapping("/addUser/{email}/{tasklistId}")
-    public Boolean getTasklistByUserId(@PathVariable String email, @PathVariable Long tasklistId){
+    public Boolean addUserToTasklist(@PathVariable String email, @PathVariable Long tasklistId) {
         Tasklist tasklist = tasklistRepository.getReferenceById(tasklistId);
         GoogleAccount googleAccount = tasklistRepository.findGoogleAccByEmail(email);
+
         if (googleAccount == null) {
             return false;
         }
+
+        if (tasklist.getGoogleAccount().contains(googleAccount)) {
+            return true;
+        }
+
         tasklist.getGoogleAccount().add(googleAccount);
+
+
         tasklist.getAssignedTaskList().forEach(task -> {
-            task.getGoogleAccount().add(googleAccount);
+            if (!task.getGoogleAccount().contains(googleAccount)) { // Check for each task
+                task.getGoogleAccount().add(googleAccount);
+            }
         });
+
+
         tasklistRepository.save(tasklist);
         return true;
     }
