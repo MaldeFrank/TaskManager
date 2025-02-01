@@ -47,4 +47,23 @@ public class ProfileController {
         repository.save(profile);
         return true;
     }
+
+    @PutMapping("/profile/addGoogleAccByEmail/{profileId}/{googleAccEmail}")
+    Boolean addGoogleAccountByEmail(@PathVariable Long profileId, @PathVariable String googleAccEmail){
+        Profile profile = repository.findById(profileId)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        GoogleAccount googleAccount = repository.findGoogleAccByEmail(googleAccEmail);
+        if(googleAccount == null){
+            return false;
+        }
+        profile.getGoogleAccounts().add(googleAccount);
+        repository.save(profile);
+        return true;
+    }
+
+    @GetMapping("/profile/getByName/{name}")
+    Profile getProfileByName(@PathVariable String name){
+        return repository.findProfileByName(name);
+    }
+
 }

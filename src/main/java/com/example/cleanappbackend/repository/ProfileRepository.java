@@ -10,4 +10,10 @@ import org.springframework.stereotype.Repository;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("SELECT g FROM GoogleAccount g WHERE g.id = :id")
     GoogleAccount findGoogleAccById(String id);
+
+    @Query("SELECT g FROM GoogleAccount g WHERE g.email = :email")
+    GoogleAccount findGoogleAccByEmail(String email);
+
+    @Query("SELECT p FROM Profile p WHERE p.name = :name")
+    Profile findProfileByName(String name);
 }
