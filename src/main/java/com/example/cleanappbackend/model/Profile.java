@@ -25,7 +25,7 @@ public class Profile {
     @ManyToMany
     private List<GoogleAccount> googleAccounts;
 
-    @OneToMany(mappedBy = "assignedTo")
+    @OneToMany(mappedBy = "assignedTo",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AssignedTask> assignedTasks;
 }

@@ -17,7 +17,7 @@ public class AssignedTask {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "profile_id")
     private Profile assignedTo;
 

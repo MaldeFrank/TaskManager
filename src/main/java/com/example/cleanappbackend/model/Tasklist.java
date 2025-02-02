@@ -19,6 +19,6 @@ public class Tasklist {
     @ManyToMany()
     private List<GoogleAccount> googleAccount;
 
-    @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssignedTask> assignedTaskList;
 }
