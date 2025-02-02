@@ -2,6 +2,7 @@ package com.example.cleanappbackend.controller;
 
 import com.example.cleanappbackend.model.AssignedTask;
 import com.example.cleanappbackend.model.GoogleAccount;
+import com.example.cleanappbackend.model.Profile;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.dto.ProfileDto;
 import com.example.cleanappbackend.model.dto.TaskDto;
@@ -98,5 +99,6 @@ public class GoogleAccountController {
 
         return profileDtos;
     }
+
 
 }

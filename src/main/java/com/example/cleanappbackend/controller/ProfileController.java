@@ -56,6 +56,9 @@ public class ProfileController {
         if(googleAccount == null){
             return false;
         }
+        if(profile.getGoogleAccounts().contains(googleAccount)){
+            return true;
+        }
         profile.getGoogleAccounts().add(googleAccount);
         repository.save(profile);
         return true;
@@ -64,6 +67,20 @@ public class ProfileController {
     @GetMapping("/profile/getByName/{name}")
     Profile getProfileByName(@PathVariable String name){
         return repository.findProfileByName(name);
+    }
+
+    @GetMapping("/getProfileByGoogleEmail/{email}")
+    ProfileDto getProfileByGoogleEmail(@PathVariable String email) {
+        GoogleAccount googleAccount = repository.findGoogleAccByEmail(email);
+
+        //There should only be one profile with the google acc name.
+        List<ProfileDto> profileDtos =  googleAccount.getProfiles()
+                .stream()
+                .filter(profile -> profile.getName().equals(googleAccount.getName()))
+                .map(foundProfile->new ProfileDto(foundProfile))
+                .toList();
+
+        return profileDtos.getFirst();
     }
 
 }
