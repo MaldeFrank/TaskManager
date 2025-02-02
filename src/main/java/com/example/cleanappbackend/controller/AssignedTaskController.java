@@ -1,6 +1,7 @@
 package com.example.cleanappbackend.controller;
 
 import com.example.cleanappbackend.model.AssignedTask;
+import com.example.cleanappbackend.model.Profile;
 import com.example.cleanappbackend.repository.AssignedTaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -53,13 +54,15 @@ public class AssignedTaskController {
 
     @PutMapping("/assignedTask/{id}")
     public AssignedTask updateAssignedTask(@PathVariable Long id, @RequestBody AssignedTask newTask) {
+        Profile profile = assignedTaskRepository.findProfileById(newTask.getAssignedTo().getId()); //Solves problem of profile getting changed
+
         return assignedTaskRepository.findById(id)
                 .map(existingTask -> {
                     if (newTask.getTask() != null) {
                         existingTask.setTask(newTask.getTask());
                     }
                     if (newTask.getAssignedTo() != null) {
-                        existingTask.setAssignedTo(newTask.getAssignedTo());
+                        existingTask.setAssignedTo(profile);
                     }
                     if (newTask.isCompleted() != existingTask.isCompleted()) {
                         existingTask.setCompleted(newTask.isCompleted());
