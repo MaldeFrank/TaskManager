@@ -2,6 +2,7 @@ package com.example.cleanappbackend.controller;
 
 import com.example.cleanappbackend.model.AssignedTask;
 import com.example.cleanappbackend.model.Profile;
+import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.repository.AssignedTaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -73,5 +74,16 @@ public class AssignedTaskController {
                     return assignedTaskRepository.save(existingTask);
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assigned task not found with id: " + id));
+    }
+
+    @GetMapping("/assignedTasksByProfile/{id}")
+    public List<AssignedTaskDto> getAssignedTasksByProfileId(@PathVariable Long id){
+
+        List<AssignedTaskDto> foundAssingedTasks = assignedTaskRepository.getAssignedTaskByProfileId(id)
+                .stream()
+                .map(assTask-> new AssignedTaskDto(assTask))
+                .toList();
+
+        return foundAssingedTasks;
     }
 }
