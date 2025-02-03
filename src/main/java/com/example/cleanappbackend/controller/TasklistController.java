@@ -6,7 +6,6 @@ import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.repository.TasklistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
