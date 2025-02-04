@@ -1,5 +1,6 @@
 package com.example.cleanappbackend.model;
 
+import com.example.cleanappbackend.model.enums.PeriodFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,6 +16,8 @@ public class Tasklist {
     private long taskId;
 
     private String listName;
+
+    private String periodFilter;
 
     @ManyToMany()
     private List<GoogleAccount> googleAccount;
