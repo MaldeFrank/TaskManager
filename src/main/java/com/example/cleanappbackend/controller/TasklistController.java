@@ -38,6 +38,20 @@ public class TasklistController {
         return assignedTaskDtos;
     }
 
+    @GetMapping("/assignedTasksWeekly/{id}")
+    public List<AssignedTaskDto> getAssignedTasksWeeklyByTasklistId(@PathVariable Long id){
+        Tasklist tasklist = tasklistRepository.getReferenceById(id);
+        List<AssignedTaskDto> assignedTaskDtos = new ArrayList<>();
+
+        tasklist.getAssignedTaskList().stream().forEach(task->{
+            AssignedTaskDto assignedTaskDto = new AssignedTaskDto(task);
+            assignedTaskDtos.add(assignedTaskDto);
+        });
+        
+
+        return assignedTaskDtos;
+    }
+
     @GetMapping("/getTasklist/{id}")
     public Tasklist getTasklist(@PathVariable Long id){
        return tasklistRepository.getReferenceById(id);
