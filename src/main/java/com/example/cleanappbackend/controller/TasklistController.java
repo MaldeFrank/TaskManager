@@ -4,6 +4,7 @@ import com.example.cleanappbackend.model.GoogleAccount;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.repository.TasklistRepository;
+import com.example.cleanappbackend.util.AssignedTaskFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -39,17 +40,31 @@ public class TasklistController {
     }
 
     @GetMapping("/assignedTasksWeekly/{id}")
-    public List<AssignedTaskDto> getAssignedTasksWeeklyByTasklistId(@PathVariable Long id){
+    public List<AssignedTaskDto> getAssignedTasksWeekly(@PathVariable Long id){
         Tasklist tasklist = tasklistRepository.getReferenceById(id);
+
         List<AssignedTaskDto> assignedTaskDtos = new ArrayList<>();
 
         tasklist.getAssignedTaskList().stream().forEach(task->{
             AssignedTaskDto assignedTaskDto = new AssignedTaskDto(task);
             assignedTaskDtos.add(assignedTaskDto);
         });
-        
 
-        return assignedTaskDtos;
+        return AssignedTaskFilter.filterWeekly(assignedTaskDtos);
+    }
+
+    @GetMapping("/assignedTasksMonthly/{id}")
+    public List<AssignedTaskDto> getAssignedTasksMonthly(@PathVariable Long id){
+        Tasklist tasklist = tasklistRepository.getReferenceById(id);
+
+        List<AssignedTaskDto> assignedTaskDtos = new ArrayList<>();
+
+        tasklist.getAssignedTaskList().stream().forEach(task->{
+            AssignedTaskDto assignedTaskDto = new AssignedTaskDto(task);
+            assignedTaskDtos.add(assignedTaskDto);
+        });
+
+        return AssignedTaskFilter.filterMonthly(assignedTaskDtos);
     }
 
     @GetMapping("/getTasklist/{id}")
