@@ -5,7 +5,9 @@ import com.example.cleanappbackend.model.Profile;
 import com.example.cleanappbackend.model.dto.ProfileDto;
 import com.example.cleanappbackend.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -73,12 +75,17 @@ public class ProfileController {
     ProfileDto getProfileByGoogleEmail(@PathVariable String email) {
         GoogleAccount googleAccount = repository.findGoogleAccByEmail(email);
 
+        if (googleAccount == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Google account not found for email: " + email);
+        }
+
         //There should only be one profile with the google acc name.
         List<ProfileDto> profileDtos =  googleAccount.getProfiles()
                 .stream()
                 .filter(profile -> profile.getName().equals(googleAccount.getName()))
                 .map(foundProfile->new ProfileDto(foundProfile))
                 .toList();
+
 
         return profileDtos.getFirst();
     }
