@@ -3,6 +3,7 @@ package com.example.cleanappbackend.controller;
 import com.example.cleanappbackend.model.GoogleAccount;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
+import com.example.cleanappbackend.model.dto.GoogleAccountDto;
 import com.example.cleanappbackend.model.enums.PeriodFilter;
 import com.example.cleanappbackend.repository.TasklistRepository;
 import com.example.cleanappbackend.util.AssignedTaskFilter;
@@ -155,5 +156,12 @@ public class TasklistController {
         }
         tasklistRepository.save(tasklist);
         return true;
+    }
+
+    @GetMapping("/getAllUsers/{id}")
+    public List<GoogleAccountDto> getAllUser(@PathVariable Long id) {
+        Tasklist tasklist = tasklistRepository.getReferenceById(id);
+        List<GoogleAccountDto> googleAccountDtos = tasklist.getGoogleAccount().stream().map(GoogleAccountDto::new).toList();
+        return googleAccountDtos;
     }
 }
