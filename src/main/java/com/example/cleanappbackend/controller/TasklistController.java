@@ -22,6 +22,27 @@ public class TasklistController {
     @Autowired
     private TasklistRepository tasklistRepository;
 
+    @PutMapping("/updateTasklist/{id}")
+    public Tasklist updateTasklist(@PathVariable Long id, @RequestBody Tasklist updatedTasklist) {
+        Tasklist tasklistToUpdate = tasklistRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Could not find tasklist with id: " + id));
+
+        if (updatedTasklist.getListName() != null) {
+            tasklistToUpdate.setListName(updatedTasklist.getListName());
+        }
+        if (updatedTasklist.getAssignedTaskList() != null) {
+            tasklistToUpdate.setAssignedTaskList(updatedTasklist.getAssignedTaskList());
+        }
+        if (updatedTasklist.getGoogleAccount() != null) {
+            tasklistToUpdate.setGoogleAccount(updatedTasklist.getGoogleAccount());
+        }
+        if (updatedTasklist.getPeriodFilter() != null) {
+            tasklistToUpdate.setPeriodFilter(updatedTasklist.getPeriodFilter());
+        }
+
+        return tasklistRepository.save(tasklistToUpdate);
+    }
+
     @GetMapping("/getAll")
     public List<Tasklist> getAll() {
         List<Tasklist> tasklists = tasklistRepository.findAll();
