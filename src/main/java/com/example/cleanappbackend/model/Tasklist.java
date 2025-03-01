@@ -1,7 +1,5 @@
 package com.example.cleanappbackend.model;
 
-import com.example.cleanappbackend.model.enums.PeriodFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
