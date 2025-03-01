@@ -17,6 +17,9 @@ public class Tasklist {
 
     private String periodFilter;
 
+    @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PointScore> pointScores;
+
     @ManyToMany()
     private List<GoogleAccount> googleAccount;
 

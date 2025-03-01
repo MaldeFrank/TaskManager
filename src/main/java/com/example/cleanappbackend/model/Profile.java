@@ -20,7 +20,10 @@ public class Profile {
 
     private String name;
 
-    private long points;
+    private int points;
+
+    @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<PointScore> pointScores;
 
     @ManyToMany
     private List<GoogleAccount> googleAccounts;
@@ -28,4 +31,14 @@ public class Profile {
     @OneToMany(mappedBy = "assignedTo",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AssignedTask> assignedTasks;
+
+    public void updateTotalPoints() {
+        if (pointScores == null || pointScores.isEmpty()) {
+            this.points = 0;
+        } else {
+            this.points = pointScores.stream()
+                    .mapToInt(PointScore::getPoints)
+                    .sum();
+        }
+    }
 }
