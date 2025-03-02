@@ -17,7 +17,7 @@ public class Tasklist {
 
     private String periodFilter;
 
-    @OneToMany(mappedBy = "tasklist", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tasklist")
     private List<PointScore> pointScores;
 
     @ManyToMany()

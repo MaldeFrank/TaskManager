@@ -11,7 +11,8 @@ import java.util.List;
 public class PointDateFilter {
 
     public static List<PointScore> latestPointScore(String taskName, List<PointScore> pointScores) {
-
+        System.out.println("Filtering list");
+        pointScores.forEach(pointScore -> System.out.println(pointScore.getTaskName()));
         List<PointScore> filteredList = pointScores.stream()
                 .filter(pointScore -> pointScore.getTaskName().equals(taskName))
                 .max(Comparator.comparing(PointScore::getDateTime))

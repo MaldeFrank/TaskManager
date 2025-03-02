@@ -39,7 +39,6 @@ public class PointScoreController {
     @DeleteMapping("/deleteWithTaskName/{taskName}/{taskId}/{profileId}")
     public void deletePoints(@PathVariable String taskName, @PathVariable Long taskId, @PathVariable Long profileId){
         List<PointScore> pointScores = pointScoreRepository.getProfileTasklistScores(profileId, taskId);
-
         PointDateFilter.latestPointScore(taskName,pointScores).forEach(pointScore -> {
             pointScoreRepository.deleteById(pointScore.getPointId());
         });

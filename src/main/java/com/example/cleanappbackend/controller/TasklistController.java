@@ -99,6 +99,10 @@ public class TasklistController {
 
     @DeleteMapping("/deleteTasklist/{id}")
     public void deleteTasklist(@PathVariable Long id) {
+        Tasklist tasklist = tasklistRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Could not find tasklist with id: " + id));
+        tasklist.getPointScores().forEach(pointScore -> pointScore.setTasklist(null));
+        tasklistRepository.save(tasklist);
         tasklistRepository.deleteById(id);
     }
 
