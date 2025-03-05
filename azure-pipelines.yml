@@ -1,19 +1,28 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    npm install
+  displayName: 'Install Dependencies'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'DigitalOceanSSH'
+    runOptions: 'inline'
+    inline: |
+      cd /var/www/backend
+      git pull origin main
+      npm install
+      pm2 restart backend || pm2 start npm --name "backend" -- start
+  displayName: 'Deploy to DigitalOcean'
