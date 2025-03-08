@@ -7,22 +7,28 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
-
 - script: |
-    npm install
-  displayName: 'Install Dependencies'
+    # Ensure Docker is available (optional, as ubuntu-latest typically has it)
+    docker --version
+  displayName: 'Verify Docker'
 
 - task: SSH@0
   inputs:
     sshEndpoint: 'DigitalOceanSSH'
     runOptions: 'inline'
     inline: |
-      cd /var/www/backend
+      # Navigate to the deployment directory (adjust path as needed)
+      cd /var/www/backend || mkdir -p /var/www/backend && cd /var/www/backend
+
+      # Pull the latest code from the repository
       git pull origin main
-      npm install
-      pm2 restart backend || pm2 start npm --name "backend" -- start
-  displayName: 'Deploy to DigitalOcean'
+
+      # Stop and remove the existing container (if it exists)
+      docker-compose down || true
+
+      # Remove the last built image (optional, to free space and ensure a fresh build)
+      docker rmi $(docker images -q clean-app-backend:latest) || true
+
+      # Bring up the application using docker-compose (builds if needed)
+      docker-compose up -d
+  displayName: 'Deploy to DigitalOcean with Docker'
