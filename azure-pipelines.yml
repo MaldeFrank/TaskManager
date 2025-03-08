@@ -16,7 +16,7 @@ steps:
     sshEndpoint: 'DigitalOceanSSH'
     runOptions: 'inline'
     inline: |
-      # Navigate to the deployment directory (adjust path as needed)
+      # Navigate to the deployment directory 
       echo "Navigating to /var/www/backend"
       cd /var/www/backend || (mkdir -p /var/www/backend && cd /var/www/backend && echo "Directory created")
 
@@ -34,11 +34,11 @@ steps:
       echo "Stopping and removing existing containers"
       docker-compose down || echo "No containers to stop or error occurred"
 
-      # Remove the last built image (optional, to free space and ensure a fresh build)
+      # Remove the last built image
       echo "Removing old image"
       docker rmi $(docker images -q clean-app-backend:latest) 2>/dev/null || echo "No image to remove or error occurred"
 
-      # Bring up the application using docker-compose (builds if needed)
+      # Bring up the application using docker-compose
       echo "Starting new containers"
       docker-compose up -d || echo "Failed to start containers"
 
