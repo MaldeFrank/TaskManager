@@ -6,13 +6,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  - group: BackendSecrets  # Existing variable group for secrets (e.g., SSH credentials)
-  - name: deployDir
-    value: '/var/www/backend'  # Deployment directory on the DigitalOcean server
-  - name: repoUrl
-    value: 'https://github.com/MaldeFrank/TaskManager.git'  # GitHub repository URL
-
 steps:
 - script: |
     docker --version
@@ -24,8 +17,8 @@ steps:
     runOptions: 'inline'
     inline: |
       # Navigate to deployment directory
-      echo "Navigating to $deployDir"
-      cd "$deployDir" || (mkdir -p "$deployDir" && cd "$deployDir" && echo "Directory created")
+      echo "Navigating to /var/www/backend"
+      cd "/var/www/backend" || (mkdir -p "/var/www/backend" && cd "/var/www/backend" && echo "Directory created")
       pwd
 
       # Clone or update repository
@@ -35,7 +28,7 @@ steps:
         git pull origin main || (echo "Git pull failed" && exit 1)
       else
         echo "Cloning project"
-        git clone "$repoUrl" || (echo "Git clone failed" && exit 1)
+        git clone "https://github.com/MaldeFrank/TaskManager.git" || (echo "Git clone failed" && exit 1)
         cd TaskManager
       fi
 
