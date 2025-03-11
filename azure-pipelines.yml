@@ -31,11 +31,11 @@ steps:
       git pull origin main || (echo "Git pull failed, initializing repository" && git init && git remote add origin https://github.com/MaldeFrank/TaskManager.git && git pull origin main)
 
       # Check if docker-compose.yml exists
-      ls -l docker-compose.yml || echo "docker-compose.yml not found"
+      ls -l Docker-compose.yml || echo "Docker-compose.yml not found"
 
       # Stop and remove the existing container (if it exists)
       echo "Stopping and removing existing containers"
-      docker-compose down || echo "No containers to stop or error occurred"
+      Docker-compose down || echo "No containers to stop or error occurred"
 
       # Remove the last built image
       echo "Removing old image"
@@ -43,7 +43,7 @@ steps:
 
       # Bring up the application using docker-compose
       echo "Starting new containers"
-      docker-compose up -d || echo "Failed to start containers"
+      Docker-compose up -d || echo "Failed to start containers"
 
       # Verify containers are running
       echo "Checking container status"
