@@ -37,6 +37,8 @@ steps:
       else
       git clone https://github.com/MaldeFrank/TaskManager.git
       cd TaskManager
+      fi
+
 
       # Check if docker-compose.yml exists
       ls -l docker-compose.yml || echo "docker-compose.yml not found"
