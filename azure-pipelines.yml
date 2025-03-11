@@ -7,7 +7,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: BackendSecrets 
+  - group: BackendSecrets  # Existing variable group for secrets (e.g., SSH credentials)
+  - name: deployDir
+    value: '/var/www/backend'  # Deployment directory on the DigitalOcean server
+  - name: repoUrl
+    value: 'https://github.com/MaldeFrank/TaskManager.git'  # GitHub repository URL
 
 steps:
 - script: |
@@ -19,43 +23,49 @@ steps:
     sshEndpoint: 'DigitalOceanSSH'
     runOptions: 'inline'
     inline: |
-      # Navigate to the deployment directory 
-      echo "Navigating to /var/www/backend"
-      cd /var/www/backend || (mkdir -p /var/www/backend && cd /var/www/backend && echo "Directory created")
-
-      # Check current directory
+      # Navigate to deployment directory
+      echo "Navigating to $deployDir"
+      cd "$deployDir" || (mkdir -p "$deployDir" && cd "$deployDir" && echo "Directory created")
       pwd
 
-      # Pull the latest code from the repository
-      echo "Pulling from Git repository"
-      git pull origin main || (echo "Git pull failed, initializing repository" && git init && git remote add origin https://github.com/MaldeFrank/TaskManager.git && git pull origin main)
-
-      #Go to project
+      # Clone or update repository
       if [ -d "TaskManager" ]; then
-      cd TaskManager
-      git pull origin main
+        echo "Moving to TaskManager"
+        cd TaskManager
+        git pull origin main || (echo "Git pull failed" && exit 1)
       else
-      git clone https://github.com/MaldeFrank/TaskManager.git
-      cd TaskManager
+        echo "Cloning project"
+        git clone "$repoUrl" || (echo "Git clone failed" && exit 1)
+        cd TaskManager
       fi
 
+      # Check for docker-compose.yml
+      if [ ! -f "docker-compose.yml" ]; then
+        echo "Error: docker-compose.yml not found"
+        exit 1
+      fi
+      ls -l docker-compose.yml
 
-      # Check if docker-compose.yml exists
-      ls -l docker-compose.yml || echo "docker-compose.yml not found"
-
-      # Stop and remove the existing container (if it exists)
+      # Stop and remove existing containers
       echo "Stopping and removing existing containers"
-      docker-compose down || echo "No containers to stop or error occurred"
+      docker-compose down || echo "No containers to stop"
 
-      # Remove the last built image
+      # Remove old image dynamically
       echo "Removing old image"
-      docker rmi $(docker images -q clean-app-backend:latest) 2>/dev/null || echo "No image to remove or error occurred"
+      image_name=$(grep 'image:' docker-compose.yml | awk '{print $2}' | head -n 1)
+      docker rmi "$image_name" 2>/dev/null || echo "No image to remove"
 
-      # Bring up the application using docker-compose
+      # Start new containers
       echo "Starting new containers"
-      docker-compose up -d || echo "Failed to start containers"
+      docker-compose up -d || (echo "Failed to start containers" && exit 1)
 
       # Verify containers are running
       echo "Checking container status"
+      sleep 5
+      if ! docker ps | grep -q "Up"; then
+        echo "Error: Containers failed to start"
+        docker logs $(docker ps -a -q)
+        exit 1
+      fi
       docker ps -a
   displayName: 'Deploy to DigitalOcean with Docker'
