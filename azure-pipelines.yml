@@ -28,7 +28,7 @@ steps:
 
       # Pull the latest code from the repository
       echo "Pulling from Git repository"
-      git pull origin main || (echo "Git pull failed, initializing repository" && git init && git remote add origin https://github.com/MaldeFrank/TaskManager.git && git pull origin main)
+      git clone https://github.com/MaldeFrank/TaskManager.git  || (echo "Git pull failed")
 
       # Check if docker-compose.yml exists
       ls -l docker-compose.yml || echo "docker-compose.yml not found"
