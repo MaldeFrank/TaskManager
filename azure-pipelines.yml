@@ -61,4 +61,5 @@ steps:
         exit 1
       fi
       docker ps -a
+    failOnStdErr: false  # Prevents false error tagging
   displayName: 'Deploy to DigitalOcean with Docker'
