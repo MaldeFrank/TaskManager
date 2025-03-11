@@ -31,7 +31,7 @@ steps:
       git pull origin main || (echo "Git pull failed, initializing repository" && git init && git remote add origin https://github.com/MaldeFrank/TaskManager.git && git pull origin main)
 
       #Go to project
-      if [-d "TaskManager"]; then
+      if [ -d "TaskManager" ]; then
       cd TaskManager
       git pull origin main
       else
