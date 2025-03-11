@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: BackendSecrets 
+  - group: BackendSecrets
 
 steps:
 - script: |
@@ -28,7 +28,12 @@ steps:
 
       # Pull the latest code from the repository
       echo "Pulling from Git repository"
-      git pull origin main || (echo "Git pull failed, initializing repository" && git init && git remote add origin https://github.com/MaldeFrank/TaskManager.git && git pull origin main)
+      if ! git pull origin main 2>/dev/null; then
+        echo "Git pull failed, initializing repository"
+        git init
+        git remote add origin https://github.com/MaldeFrank/TaskManager
+        git pull origin main
+      fi
 
       # Check if docker-compose.yml exists
       ls -l docker-compose.yml || echo "docker-compose.yml not found"
@@ -41,11 +46,13 @@ steps:
       echo "Removing old image"
       docker rmi $(docker images -q clean-app-backend:latest) 2>/dev/null || echo "No image to remove or error occurred"
 
-      # Bring up the application using docker-compose
+      # Bring up the application using docker-compose with the password
       echo "Starting new containers"
-      docker-compose up -d || echo "Failed to start containers"
+      DB_PASSWORD=$DB_PASSWORD docker-compose up -d || echo "Failed to start containers"
 
       # Verify containers are running
       echo "Checking container status"
       docker ps -a
+  env:
+    DB_PASSWORD: $(DB_PASSWORD)
   displayName: 'Deploy to DigitalOcean with Docker'
