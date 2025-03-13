@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://161.35.196.6:80", "https://161.35.196.6:80", "http://localhost:3000")
+                .allowedOrigins("https://www.pligtlisten.dk", "http://localhost:3000") // Adjust for your domain
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true);
     }
