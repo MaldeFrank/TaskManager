@@ -10,6 +10,7 @@ import java.util.List;
 @UtilityClass
 public class PointDateFilter {
 
+    //Used to delete
     public static List<PointScore> latestPointScore(String taskName, List<PointScore> pointScores) {
         System.out.println("Filtering list");
         pointScores.forEach(pointScore -> System.out.println(pointScore.getTaskName()));
