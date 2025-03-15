@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   app:
     build: .
@@ -6,7 +5,3 @@ services:
       - "8080:8080"
     networks:
       - my-shared-network
-
-networks:
-  my-shared-network:
-    external: true
