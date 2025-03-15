@@ -3,6 +3,9 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  
+variables:
+  - group: BackendSecrets
 
 steps:
   - task: SSH@0
@@ -43,3 +46,5 @@ steps:
         docker rmi taskmanager-app
         echo "Opbygger og kører Docker"
         docker-compose up
+    env:
+      PASSWORD: $(PASSWORD)
