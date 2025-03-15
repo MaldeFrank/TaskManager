@@ -19,5 +19,5 @@ WORKDIR /app
 # Copy the JAR file from the builder stage to the runtime stage
 COPY --from=builder /build/target/Clean-app-backend-*.jar app.jar
 
-# Run the JAR file
-CMD ["java", "-jar", "app.jar"]
+# Run the JAR file with the `prod` profile
+CMD ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
