@@ -13,7 +13,7 @@ steps:
       sshEndpoint: 'DigitalOceanSSH'
       runOptions: 'inline'
       inline: |
-        echo "Gå til projektmappe"
+        echo "Go to TaskManager folder"
         cd /var/www/backend/TaskManager || (echo "Mappe ikke fundet" && exit 1)
         /bin/pwd
 
@@ -23,7 +23,7 @@ steps:
       sshEndpoint: 'DigitalOceanSSH'
       runOptions: 'inline'
       inline: |
-        echo "Tjekker path"
+        echo "Checking path"
         cd /var/www/backend/TaskManager || (echo "Kunne ikke skifte til mappe" && exit 1)
         /bin/pwd
         echo "Henter kode"
@@ -38,12 +38,18 @@ steps:
       sshEndpoint: 'DigitalOceanSSH'
       runOptions: 'inline'
       inline: |
-        echo "Stopper tidligere container"
-        cd /var/www/backend/TaskManager || (echo "Kunne ikke skifte til mappe" && exit 1)
-        docker-compose down
-        docker rm taskmanager-app-1
-        docker rmi taskmanager-app
-        echo "Opbygger og kører Docker"
-        docker-compose up
-    env:
-      PASSWORD: $(PASSWORD)
+       echo "Go to TaskManager folder"
+       cd /var/www/backend/TaskManager || (echo "Kunne ikke skifte til mappe" && exit 1)
+
+       echo "Running docker-compose down"
+       docker-compose down 2>&1 || echo "Failed to stop containers, continuing..."
+
+       echo "Removing container taskmanager-app-1 if it exists"
+       docker rm -f taskmanager-app-1 2>&1 || echo "Container taskmanager-app-1 not found or could not be removed, continuing..."
+
+       echo "Removing image taskmanager-app if it exists"
+       docker rmi taskmanager-app 2>&1 || echo "Image taskmanager-app not found or could not be removed, continuing..."
+
+       echo "Build and run docker"
+       docker-compose --env-file .env up -d --build 2>&1 || (echo "Failed to start Docker containers" && exit 1)
+    
