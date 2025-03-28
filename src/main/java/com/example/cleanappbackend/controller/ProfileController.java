@@ -67,8 +67,9 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/getByName/{name}")
-    Profile getProfileByName(@PathVariable String name){
-        return repository.findProfileByName(name);
+    ProfileDto getProfileByName(@PathVariable String name){
+        Profile profile = repository.findProfileByName(name);
+        return new ProfileDto(profile);
     }
 
     @GetMapping("/getProfileByGoogleEmail/{email}")
