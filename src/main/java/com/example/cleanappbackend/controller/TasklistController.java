@@ -144,7 +144,7 @@ public class TasklistController {
     public Boolean setPeriodFilter(@PathVariable Long id, @PathVariable String period) {
         Tasklist tasklist = tasklistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Could not find tasklist with id: " + id));
-        System.out.println("This is the period: "+period);
+
         switch (period) {
             case "All":
                 tasklist.setPeriodFilter("All");

@@ -37,14 +37,14 @@ public class AssignedTaskController {
 
     @PutMapping("/assignedTask/{id}")
     public AssignedTask updateAssignedTask(@PathVariable Long id, @RequestBody AssignedTask newTask) {
-        Profile profile = assignedTaskRepository.findProfileById(newTask.getAssignedTo().getId()); //Solves problem of profile getting changed
+        Profile profile = assignedTaskRepository.findProfileById(newTask.getAssignedTo().getId());
 
         return assignedTaskRepository.findById(id)
                 .map(existingTask -> {
                     if (newTask.getTask() != null) {
                         existingTask.setTask(newTask.getTask());
                     }
-                    if (newTask.getAssignedTo() != null) {
+                    if (newTask.getAssignedTo() != null && profile != null) {
                         existingTask.setAssignedTo(profile);
                     }
                     if (newTask.isCompleted() != existingTask.isCompleted()) {
