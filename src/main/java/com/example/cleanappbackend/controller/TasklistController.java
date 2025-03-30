@@ -4,6 +4,7 @@ import com.example.cleanappbackend.model.GoogleAccount;
 import com.example.cleanappbackend.model.dto.AssignedTaskDto;
 import com.example.cleanappbackend.model.Tasklist;
 import com.example.cleanappbackend.model.dto.GoogleAccountDto;
+import com.example.cleanappbackend.model.dto.TasklistDto;
 import com.example.cleanappbackend.repository.TasklistRepository;
 import com.example.cleanappbackend.util.AssignedTaskFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -93,8 +94,9 @@ public class TasklistController {
     }
 
     @GetMapping("/getTasklist/{id}")
-    public Tasklist getTasklist(@PathVariable Long id) {
-        return tasklistRepository.getReferenceById(id);
+    public TasklistDto getTasklist(@PathVariable Long id) {
+        Tasklist tasklist = tasklistRepository.getReferenceById(id);
+        return new TasklistDto(tasklist);
     }
 
     @DeleteMapping("/deleteTasklist/{id}")
