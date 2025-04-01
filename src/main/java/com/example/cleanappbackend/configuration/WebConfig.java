@@ -14,7 +14,7 @@ public class WebConfig {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOrigins("www.pligtlisten.dk")
+                    .allowedOrigins("https://www.pligtlisten.dk")
                     .allowedMethods("GET", "POST", "PUT", "DELETE")
                     .allowedHeaders("*")
                     .allowCredentials(true);
